@@ -6,8 +6,8 @@ This GitHub repository contains a News Aggregator Application, which is a Python
 3. Allows users to customize their news feed based on their preferences
 
 # Technology Stack
-Python
-HTML (5.1% of the codebase)
+1. Python - Django
+2. HTML, CSS
 
 # License
 No license information is provided in the repository.
