@@ -12,14 +12,16 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **kwargs):
-        url = 'https://newsapi.org/v2/top-headlines'
+        url = 'https://newsapi.org/v2/everything'
         params = {
             'apiKey' : '94b4a5d8c5484598ab852fbd28bd95d7',
-            'country' : 'us'
+            'sortBy' : 'popularity',
+            'q' : 'Microsoft',
+            'from' : '2024-07-01'
         }
         reponse = requests.get(url, params=params)
         data = reponse.json()
-
+        # print(data)
         for item in data['articles']:
             description = item['description'] if item['description'] is not None else 'Description not available'
             
