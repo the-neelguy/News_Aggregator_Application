@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> News Aggregator</title>
+    </head>
+
+    <body>
+        <h1> Latest News</h1>
+        <ul>
+            {% for article in article %}
+            <li>
+                <a href="{{article.url}}">{{article.title}}</a> - {{article.source}} ({{article.published_at}})
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
