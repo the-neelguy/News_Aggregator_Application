@@ -5,6 +5,11 @@
 </head>
 <body>
     <h1>Latest News</h1>
+    <form method="GET" action="{% url 'fetch_articles' %}">
+        <input type="text" name="search_term" placeholder="Enter News topic">
+        <button type="submit">Search</button>
+    </form>
+
     <ul>
         {% for article in articles %}
             <li>
