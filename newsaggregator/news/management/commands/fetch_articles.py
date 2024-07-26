@@ -1,7 +1,7 @@
 import requests
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandParser
 from news.models import Article
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 import pytz
 
@@ -10,24 +10,36 @@ import pytz
 class Command(BaseCommand):
     help = 'Fetch news articles from News API'
 
+    def add_arguments(self, parser):
+        parser.add_argument('search_term', type=str, help='Search term for news article')
 
-    def handle(self, *args, **kwargs):
+    def handle(self, *args, **options):
+        # clear all existing DB contents
+        Article.objects.all().delete()
+        
+        # Manipulation of the api parameters
+        from_date = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+        search_term = options['search_term']
+
         url = 'https://newsapi.org/v2/everything'
         params = {
             'apiKey' : '94b4a5d8c5484598ab852fbd28bd95d7',
             'sortBy' : 'popularity',
-            'q' : 'Microsoft',
-            'from' : '2024-07-01'
-        }
+            'q' : search_term,
+            'from' : from_date
+        } 
         reponse = requests.get(url, params=params)
         data = reponse.json()
         # print(data)
         for item in data['articles']:
+            if item['title'] is None or '[Removed]' in item['title']:
+                continue
+
             description = item['description'] if item['description'] is not None else 'Description not available'
             
             published_at = datetime.strptime(item['publishedAt'], '%Y-%m-%dT%H:%M:%SZ')
             published_at = timezone.make_aware(published_at, pytz.utc)
-
+            
             article = Article(
                 title = item['title'],
                 description = description,
