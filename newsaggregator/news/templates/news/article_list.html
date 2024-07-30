@@ -2,27 +2,122 @@
 <html>
 <head>
     <title>News Articles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff8dc; /* Pale yellow background */
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ffcc99; /* Light peach-orange color */
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            color: #333;
+        }
+        .search-box {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .search-box input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff8c00; /* Darker peach-orange color */
+            color: white;
+            cursor: pointer;
+        }
+        .search-box button:hover {
+            background-color: #ff7f50; /* Slightly darker on hover */
+        }
+        .topic-searched {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ff4500; /* Orange-red color for the topic searched */
+            margin-bottom: 20px;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin: 20px;
+        }
+        .articles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .article {
+            background-color: #ffebcd; /* Blanched almond color */
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            transition: transform 0.2s;
+        }
+        .article:hover {
+            transform: scale(1.05);
+        }
+        .article h2 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+        .article p {
+            margin: 10px 0;
+        }
+        .article a {
+            color: #ff8c00; /* Darker peach-orange color */
+            text-decoration: none;
+        }
+        .article a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Latest News</h1>
-    <form method="GET" action="{% url 'fetch_articles' %}">
-        <input type="text" name="search_term" placeholder="Enter News topic">
-        <button type="submit">Click Here To Search</button>
-    </form>
+    <header>
+        <h1>Latest News</h1>
+    </header>
+    <div class="search-box">
+        <form method="GET" action="{% url 'fetch_articles' %}">
+            <input type="text" name="search_term" placeholder="Enter News topic" value="{{search_term}}">
+            <button type="submit">Click Here To Search</button>
+        </form>
+    </div>
 
     {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
+        <p class="error-message">{{ error_message }}</p>
     {% endif %}
 
-    <ul>
+    {% if search_term %}
+            <p class="topic-searched">Topic Searched: {{ search_term }}</p>
+    {% endif %}
+
+
+    <div class="articles">
         {% for article in articles %}
-            <li>
+            <div class="article">
                 <h2>{{ article.title }}</h2>
                 <p>{{ article.description }}</p>
                 <p><em>{{ article.source }}</em> - {{ article.published_at }}</p>
                 <a href="{{ article.url }}" target="_blank">Read more</a>
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </body>
 </html>
