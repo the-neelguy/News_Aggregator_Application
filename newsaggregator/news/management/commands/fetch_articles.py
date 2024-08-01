@@ -4,6 +4,7 @@ from news.models import Article
 from datetime import datetime, timedelta
 from django.utils import timezone
 import pytz
+from decouple import config
 
 class Command(BaseCommand):
     help = 'Fetch news articles from News API'
@@ -21,7 +22,7 @@ class Command(BaseCommand):
 
         url = 'https://newsapi.org/v2/everything'
         params = {
-            'apiKey': '94b4a5d8c5484598ab852fbd28bd95d7',
+            'apiKey': config('NEWS_API_KEY'),
             'sortBy': 'popularity',
             'q': search_term,
             'from': from_date
