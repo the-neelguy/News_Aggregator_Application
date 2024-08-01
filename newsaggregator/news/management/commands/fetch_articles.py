@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
         url = 'https://newsapi.org/v2/everything'
         params = {
-            'apiKey': config('NEWS_API_KEY'),
+            'apiKey': config('NEWS_API_KEY'),  # paste ur own api key here
             'sortBy': 'popularity',
             'q': search_term,
             'from': from_date
