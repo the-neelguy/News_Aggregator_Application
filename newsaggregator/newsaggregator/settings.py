@@ -80,10 +80,21 @@ WSGI_APPLICATION = 'newsaggregator.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'newsapp',  # Replace with your database name
+        'USER': 'neel',  # Replace with your database user
+        'PASSWORD': 'Neel@2001',  # Replace with your database password
+        'HOST': 'localhost',  # Use 'localhost' if your PostgreSQL server is local
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
