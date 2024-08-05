@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # clear all existing DB contents
         Article.objects.all().delete()
-        
+
         # Manipulation of the api parameters
         from_date = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
         search_term = options['search_term']
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         response = requests.get(url, params=params)
         data = response.json()
         # print(data)
-        
+
         articles_to_create = []
 
         for item in data['articles']:
@@ -38,12 +38,15 @@ class Command(BaseCommand):
                 continue
 
             description = item['description'] if item['description'] is not None else 'Description not available'
-            
+
             published_at = datetime.strptime(item['publishedAt'], '%Y-%m-%dT%H:%M:%SZ')
             published_at = timezone.make_aware(published_at, pytz.utc)
-            
+
+            # Truncate title if it's too long
+            title = item['title'][:300]  # Adjust this length as necessary
+
             article = Article(
-                title=item['title'],
+                title=title,
                 description=description,
                 source=item['source']['name'],
                 published_at=published_at,
