@@ -13,11 +13,20 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 # Copy the rest of the application code into the container
 COPY . /app
 
+# Copy the .env file into the container
+COPY .env /app/.env
+
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
+
+# Copy the entrypoint.sh script into the container
+COPY entrypoint.sh /app/entrypoint.sh
+
+# Ensure that the entrypoint.sh script is executable
+RUN chmod +x /app/entrypoint.sh
 
 # Define environment variable
 ENV NAME World
 
-# Run manage.py when the container launches
-CMD ["python", "newsaggregator/manage.py", "runserver", "0.0.0.0:8000"]
+# Run entrypoint.sh when the container launches
+CMD ["/app/entrypoint.sh"]
