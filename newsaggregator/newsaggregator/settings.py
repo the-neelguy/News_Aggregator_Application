@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 NEWS_API_KEY = config('NEWS_API_KEY')
 
@@ -81,11 +85,11 @@ WSGI_APPLICATION = 'newsaggregator.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'newsapp',  # Replace with your database name
-        'USER': 'neel',  # Replace with your database user
-        'PASSWORD': 'Neel@2001',  # Replace with your database password
-        'HOST': 'localhost',  # Use 'localhost' if your PostgreSQL server is local
-        'PORT': '5432',  # Default PostgreSQL port
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
 
