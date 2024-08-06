@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-aggregator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: news-aggregator
+  template:
+    metadata:
+      labels:
+        app: news-aggregator
+    spec:
+      containers:
+      - name: news-aggregator
+        image: public.ecr.aws/p0h3h3p5/newsapp:latest
+        ports:
+        - containerPort: 8000
